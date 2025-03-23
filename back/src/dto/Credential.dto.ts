@@ -1,7 +1,6 @@
 //modificado por mi
-interface ICredential {
+export class Credential {
   id?: number;
   username: string;
   password: string;
 }
-export default ICredential;

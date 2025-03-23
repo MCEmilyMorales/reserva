@@ -5,8 +5,9 @@ import {
   getUserByIdController,
   postRegisterUserController,
   postLoginUserController,
-} from "../controllers/usersController";
+} from "../controllers/users.controller";
 
+//conectamos a express
 const usersRouter: Router = Router();
 
 usersRouter.get("/", getUserController);
