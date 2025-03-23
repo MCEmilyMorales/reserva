@@ -8,7 +8,6 @@ import {
 } from "typeorm";
 import { Credential } from "./Credential";
 import { Appointment } from "./Appointment";
-import { UUID } from "crypto";
 
 @Entity({ name: "users" })
 export class User {

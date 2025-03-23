@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
-import { Status } from "../interfaces/IAppointment";
+
 import { User } from "./User";
+import { Status } from "../enum/status";
 
 @Entity({ name: "appointments" })
 export class Appointment {

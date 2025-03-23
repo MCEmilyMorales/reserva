@@ -1,13 +1,11 @@
-import {
-  AppoinmentDto,
-  Status,
-} from "../interfaces/IAppointment";
 import { AppDataSource } from "../config/data-source";
+import { CitaDto } from "../dto/Cita.dto";
 import { Appointment } from "../entities/Appointment";
 import { User } from "../entities/User";
+import { Status } from "../enum/status";
 
 export const getAppointmentService = async (
-  userId: string
+  userId: string,
 ): Promise<Appointment[]> => {
   try {
     const appointments = await AppDataSource.getRepository(Appointment).find({
@@ -24,7 +22,7 @@ export const getAppointmentService = async (
 };
 
 export const getAppointmentByIdService = async (
-  id: number
+  id: number,
 ): Promise<Appointment | null> => {
   try {
     const appointment = await AppDataSource.getRepository(Appointment).findOne({
@@ -37,7 +35,7 @@ export const getAppointmentByIdService = async (
 };
 
 export const postScheduleAppointmentService = async (
-  appointmentData: AppoinmentDto
+  appointmentData: CitaDto,
 ) => {
   try {
     //bd---unir mas tarde
@@ -65,10 +63,10 @@ export const postScheduleAppointmentService = async (
   }
 };
 
-export const putAppointmentCancelService = async (id: number ) => {
+export const putAppointmentCancelService = async (id: number) => {
   try {
     const appointmentCancel = await AppDataSource.getRepository(
-      Appointment
+      Appointment,
     ).findOne({
       where: { id },
       relations: ["user"],

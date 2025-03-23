@@ -4,21 +4,20 @@ import {
   getUserByIdService,
   postRegisterUserService,
   postLoginUserService,
-} from "../services/userService";
+} from "../services/user.service";
 import { User } from "../entities/User";
-import { UserDto } from "../dto/UserDto";
+import { UserDto } from "../dto/User.dto";
 
-//? Controlador para registrar un nuevo usuario
+//? registrar nuevo usuario
 export const postRegisterUserController = async (
   req: Request,
   res: Response,
-) => {
+): Promise<void> => {
   try {
-    const user:UserDto = req.body;
-    const newUser= await postRegisterUserService(user);
+    const user: UserDto = req.body;
+    const newUser = await postRegisterUserService(user);
     res.status(201).json(newUser);
   } catch (error) {
-    console.log(error);
     res.status(400).json({ message: "Los datos son incorrectos." });
   }
 };
