@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { register } from "../services/registro.service";
-import { UsuarioNuevo } from "../schemas/registro.schema";
+import { UsuarioNuevo } from "../schemas/usuarioNuevo.schema";
 //debo recibir los datos del servidor y enviar los datos del servidor
 //! por convesion en react los hooks personalizados comienzan con USE, para que react los reconozca
 const useFetch = () => {
@@ -9,6 +9,7 @@ const useFetch = () => {
   const [error, setError] = useState<Error | null>(null);
 
   const postData = async (body: UsuarioNuevo) => {
+    UsuarioNuevo.parse(body);
     setLoading(true);
     setError(null);
     try {
@@ -22,7 +23,7 @@ const useFetch = () => {
       setLoading(false);
     }
   };
-  return { postData, loading, error, data };
+  return { postData, loading, error, setError, data };
 };
 
 export default useFetch;

@@ -8,8 +8,8 @@ import Reserva from "../components/formularios/Reserva";
 export function Rutas() {
   return (
     <Routes>
+      <Route path="/" element={<LandingPage />} />
       <Route path="preguntas" element={<Question />} />
-      <Route path="landing" element={<LandingPage />} />
       <Route path="formularios/acceso" element={<Acceso />} />
       <Route path="formularios/registro" element={<RegistroUsuario />} />
       <Route path="formularios/reserva" element={<Reserva />} />

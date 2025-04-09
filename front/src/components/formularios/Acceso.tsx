@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import Input from "../ui/input";
 
 const navigation = [
   {
@@ -32,45 +33,23 @@ export default function Acceso() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-cinco py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-dos"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-dos placeholder-tres text-uno focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Enter your email address"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-dos"
-              >
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-cinco placeholder-cuatro text-uno focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Enter your password"
-                />
-              </div>
-            </div>
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="Ingrese su dirección de email"
+              autocomplete="email"
+              required
+              //value
+            />
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="Ingrese su contraseña"
+              autoComplete="current-password"
+              required
+            />
 
             <div className="flex items-center justify-between">
               <div className="flex items-center">

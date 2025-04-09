@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { useState } from "react";
 import useFetch from "../../hooks/useFetch";
+import { UsuarioNuevo } from "../../schemas/usuarioNuevo.schema";
 
 const navigation = {
   name: "Acceso",
@@ -9,7 +10,7 @@ const navigation = {
 };
 
 export const RegistroUsuario = () => {
-  const { postData, loading, error, data } = useFetch();
+  const { postData } = useFetch();
 
   const [formData, setFormData] = useState({
     name: "",
@@ -20,34 +21,47 @@ export const RegistroUsuario = () => {
     password: "",
     confirmo: "",
   });
+  const [tocado, setTocado] = useState(false);
+  const [err, setErr] = useState([]);
 
   //bindear el value de la etiqueta input con un estado
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     //name es la propiedad 'name' que le puse al imput
     const { name, value } = event.target;
-    //Si el campo pertenece a PasswordForm, actualizarlo correctamente
-    if (name === "password" || name === "confirmo") {
-      //bindear el value con nuestro estado
-      setFormData({
-        ...formData,
-        [name]: value,
-      });
-    } else {
-      setFormData({
-        ...formData,
-        [name]: name === "nDni" ? Number(value) || "" : value,
-      });
-    }
+    //bindear el value con nuestro estado
+    // Debo tomar el value del input, esto lo hago buscandolo por el name, con eso voy a tener la clave. que es lo que necesito enviarle al servidor
+    const newValue = name === "nDni" ? Number(value) || "" : value;
+
+    setFormData({
+      ...formData,
+      [name]: newValue,
+    });
   };
+
+  //atributo onBlur. Me ayuda a darle foco al input, y si hay algun error setea el error y lo muestra inmediatamente
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setTocado(true);
+    // Validar el dato del input
+    const inputValido = UsuarioNuevo.safeParse({ ...formData, [name]: value });
+    const nameInvalido = inputValido.error?.formErrors.fieldErrors[name];
+    console.log("nameInvalido: ", nameInvalido);
+//necesito hacer que el error del input se guarde segun el [name]
+    setErr([name]:nameInvalido);
+    console.log("ERROR: ", err);
+
+    // Actualizar el estado de tocado para mostrar errores específicos
+  };
+
   //agregar el evento al boton del formulario y almacenarla en una base de datos, osea enviarlo al backend
   const handleSubmit = async (event: React.FormEvent) => {
     //se dejara de recargar la pagina cada vez que ase hace un submit
     event.preventDefault();
     try {
       await postData(formData);
-    } catch (err) {
-      if (err instanceof Error) {
-        throw new Error(err.message);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
       }
       throw new Error();
     }
@@ -73,9 +87,14 @@ export const RegistroUsuario = () => {
                 id="name"
                 name="name"
                 className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
                 value={formData.name}
-                onChange={handleChange}
+                onChange={(value) => handleChange(value)}
+                onBlur={handleBlur}
               />
+              {tocado && err.length > 0 && (
+                <p className="text-red-500"> {err}</p>
+              )}
             </div>
             <div className="mb-5">
               <label
@@ -89,9 +108,12 @@ export const RegistroUsuario = () => {
                 id="email"
                 name="email"
                 className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                required
                 value={formData.email}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {tocado && <p className="text-red-500 text-sm">{err}</p>}
             </div>
             <div className="mb-5">
               <label
@@ -107,7 +129,9 @@ export const RegistroUsuario = () => {
                 className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.password}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {tocado && <p className="text-red-500 text-sm">{err}</p>}
             </div>
             <div className="mb-5">
               <label
@@ -123,7 +147,9 @@ export const RegistroUsuario = () => {
                 className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.confirmo}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {tocado && <p className="text-red-500 text-sm">{err}</p>}
             </div>
             <div className="mb-5">
               <label
@@ -139,7 +165,9 @@ export const RegistroUsuario = () => {
                 className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.birthdate}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {tocado && <p className="text-red-500 text-sm">{err}</p>}
             </div>
             <div className="mb-5">
               <label
@@ -155,7 +183,9 @@ export const RegistroUsuario = () => {
                 className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.nDni}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {tocado && <p className="text-red-500 text-sm">{err}</p>}
             </div>
             <div className="mb-5">
               <label
@@ -171,7 +201,9 @@ export const RegistroUsuario = () => {
                 className="w-full px-4 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                 value={formData.username}
                 onChange={handleChange}
+                onBlur={handleBlur}
               />
+              {tocado && <p className="text-red-500 text-sm">{err}</p>}
             </div>
             <div className="flex items-center mb-5">
               <input type="checkbox" id="terms" name="terms" className="mr-2" />
