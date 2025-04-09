@@ -1,4 +1,7 @@
 import { Link } from "react-router-dom";
+import Input from "../ui/input";
+import Button from "../ui/button";
+import Checkbox from "../ui/checkbox";
 
 const navigation = [
   {
@@ -32,62 +35,30 @@ export default function Acceso() {
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-cinco py-8 px-4 shadow sm:rounded-lg sm:px-10">
           <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-dos"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-dos placeholder-tres text-uno focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Enter your email address"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-dos"
-              >
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-cinco placeholder-cuatro text-uno focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Enter your password"
-                />
-              </div>
-            </div>
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="Ingrese su dirección de email"
+              autocomplete="email"
+              required
+              //value
+            />
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="Ingrese su contraseña"
+              autoComplete="current-password"
+              required
+            />
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember_me"
-                  name="remember_me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-cinco rounded"
-                />
-                <label
-                  htmlFor="remember_me"
-                  className="ml-2 block text-sm text-uno"
-                >
-                  Remember me
-                </label>
-              </div>
-
+              <Checkbox
+                label="Remember me"
+                name="remember_me"
+                type="checkbox"
+              />
               <div className="text-sm">
                 <a
                   href="#"
@@ -99,12 +70,7 @@ export default function Acceso() {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Sign in
-              </button>
+              <Button type="submit" textoDelBoton="Sign in" />
             </div>
           </form>
           <div className="mt-6">
