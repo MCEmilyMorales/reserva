@@ -1,5 +1,7 @@
 import { Link } from "react-router-dom";
 import Input from "../ui/input";
+import Button from "../ui/button";
+import Checkbox from "../ui/checkbox";
 
 const navigation = [
   {
@@ -52,21 +54,11 @@ export default function Acceso() {
             />
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember_me"
-                  name="remember_me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-cinco rounded"
-                />
-                <label
-                  htmlFor="remember_me"
-                  className="ml-2 block text-sm text-uno"
-                >
-                  Remember me
-                </label>
-              </div>
-
+              <Checkbox
+                label="Remember me"
+                name="remember_me"
+                type="checkbox"
+              />
               <div className="text-sm">
                 <a
                   href="#"
@@ -78,12 +70,7 @@ export default function Acceso() {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Sign in
-              </button>
+              <Button type="submit" textoDelBoton="Sign in" />
             </div>
           </form>
           <div className="mt-6">

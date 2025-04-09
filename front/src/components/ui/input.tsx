@@ -5,7 +5,7 @@ const Input = ({
   placeholder = "",
   //value,
   // onChange,
-  error = "",
+  error,
   ...rest
 }) => {
   return (
@@ -26,7 +26,7 @@ const Input = ({
           className="appearance-none rounded-md relative block w-full px-3 py-2 border border-tres placeholder-tres text-uno focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm"
           {...rest}
         />
-        {error && <span className=" text-red-600"></span>}
+        {error && <span className=" text-red-600 text-sm">{error}</span>}
       </div>
     </div>
   );
