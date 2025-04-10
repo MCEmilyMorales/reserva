@@ -1,4 +1,4 @@
-const Checkbox = ({ label = "", name = "", type = "" }) => {
+const Checkbox = ({ label, name = "", type = "" }) => {
   return (
     <div className="flex items-center">
       <input

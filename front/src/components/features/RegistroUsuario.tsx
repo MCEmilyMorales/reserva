@@ -5,6 +5,7 @@ import { UsuarioNuevo } from "../../schemas/usuarioNuevo.schema";
 import Input from "../ui/input";
 import Button from "../ui/button";
 import Checkbox from "../ui/checkbox";
+import SubtituloForm from "../ui/subtituloForm";
 
 const navigation = {
   name: "Acceso",
@@ -24,7 +25,7 @@ export const RegistroUsuario = () => {
     password: "",
     confirmo: "",
   });
-  const [tocado, setTocado] = useState(false);
+  const [setTocado] = useState(false);
   const [err, setErr] = useState<{ [key: string]: string[] }>({});
 
   //bindear el value de la etiqueta input con un estado
@@ -74,125 +75,124 @@ export const RegistroUsuario = () => {
   };
 
   return (
-    <>
-      <div className="min-h-screen bg-cinco flex flex-col justify-center py-12 sm:px-6 lg:px-8">
-        <div className="sm:mx-auto sm:w-full sm:max-w-md">
-          <h2 className="mt-6 text-center text-3xl font-extrabold text-uno">
-            Create an Account
-          </h2>
-          <form className="space-y-6" onSubmit={handleSubmit}>
-            <Input
-              label="Nombre"
-              name="name"
-              type="text"
-              placeholder="nombre completo"
-              required
-              value={formData.name}
-              onChange={(value) => handleChange(value)}
-              onBlur={handleBlur}
-              error={err.name}
-            />
-
-            <Input
-              label="Email"
-              name="email"
-              type="email"
-              placeholder="email"
-              required
-              value={formData.email}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={err.email}
-            />
-
-            <Input
-              label="Contraseña"
-              name="password"
-              type="password"
-              placeholder="contraseña"
-              required
-              value={formData.password}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={err.password}
-            />
-
-            <Input
-              label="Confirmar contraseña"
-              name="confirmo"
-              type="password"
-              placeholder="confirmar contraseña"
-              required
-              value={formData.confirmo}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={err.confirmo}
-            />
-
-            <Input
-              label="Fecha de Nacimiento"
-              name="birthdate"
-              type="date"
-              placeholder="fecha de nacimiento"
-              required
-              value={formData.birthdate}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={err.birthdate}
-            />
-
-            <Input
-              label="Dni"
-              type="number"
-              name="nDni"
-              required
-              value={formData.nDni}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={err.nDni}
-            />
-
-            <Input
-              label="Nombre de Usuario"
-              name="username"
-              type="text"
-              required
-              value={formData.username}
-              onChange={handleChange}
-              onBlur={handleBlur}
-              error={err.username}
-            />
-            <div className="flex">
-              <Checkbox
-                label={`I agree to the${" "}`}
-                type="checkbox"
-                name="terms"
+    <div className="min-h-screen bg-cinco flex flex-col justify-center py-12 sm:px-6 lg:px-8">
+      <div className="sm:mx-auto sm:w-full sm:max-w-md">
+        <SubtituloForm text="Create an Account" />
+        <p className="mt-2 text-center text-sm text-dos max-w">
+          Already have an account?{" "}
+          <Link
+            key={navigation.name}
+            to={navigation.href}
+            className="text-blue-500 hover:underline"
+          >
+            Sign in
+          </Link>
+        </p>
+        <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
+          <div className="bg-cinco py-8 px-4 shadow sm:rounded-lg sm:px-10">
+            <form className="space-y-6" onSubmit={handleSubmit}>
+              <Input
+                label="Nombre"
+                name="name"
+                type="text"
+                placeholder="nombre completo"
+                required
+                value={formData.name}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={err.name}
               />
-              <a href="#" className="text-blue-500 hover:underline">
-                terms and conditions
-              </a>
-            </div>
-            <input type="checkbox" id="terms" name="terms" className="mr-2" />
-            <label htmlFor="terms" className="text-gray-700">
-              I agree to the{" "}
-              <a href="#" className="text-blue-500 hover:underline">
-                terms and conditions
-              </a>
-            </label>
-            <Button type="submit" textoDelBoton="Register" />
-          </form>
-          <p className="mt-2 text-center text-sm text-dos max-w">
-            Already have an account?{" "}
-            <Link
-              key={navigation.name}
-              to={navigation.href}
-              className="text-blue-500 hover:underline"
-            >
-              Sign in
-            </Link>
-          </p>
+
+              <Input
+                label="Email"
+                name="email"
+                type="email"
+                placeholder="email"
+                required
+                value={formData.email}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={err.email}
+              />
+
+              <Input
+                label="Contraseña"
+                name="password"
+                type="password"
+                placeholder="contraseña"
+                required
+                value={formData.password}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={err.password}
+              />
+
+              <Input
+                label="Confirmar contraseña"
+                name="confirmo"
+                type="password"
+                placeholder="confirmar contraseña"
+                required
+                value={formData.confirmo}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={err.confirmo}
+              />
+
+              <Input
+                label="Fecha de Nacimiento"
+                name="birthdate"
+                type="date"
+                placeholder="fecha de nacimiento"
+                required
+                value={formData.birthdate}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={err.birthdate}
+              />
+
+              <Input
+                label="Dni"
+                type="number"
+                name="nDni"
+                placeholder="dni"
+                required
+                value={formData.nDni}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={err.nDni}
+              />
+
+              <Input
+                label="Nombre de Usuario"
+                name="username"
+                type="text"
+                placeholder="nombre de usuario"
+                required
+                value={formData.username}
+                onChange={handleChange}
+                onBlur={handleBlur}
+                error={err.username}
+              />
+              <div className="flex">
+                <Checkbox
+                  label={
+                    <>
+                      I agree to the{" "}
+                      <a href="#" className="text-blue-500 hover:underline">
+                        terms and conditions
+                      </a>{" "}
+                    </>
+                  }
+                  type="checkbox"
+                  name="terms"
+                />
+              </div>
+              <Button type="submit" textoDelBoton="Register" />
+            </form>
+          </div>
         </div>
       </div>
-    </>
+    </div>
   );
 };

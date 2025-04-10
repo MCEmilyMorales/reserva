@@ -19,7 +19,7 @@ export default function Acceso() {
           Sign in to your account
         </h2>
         <p className="mt-2 text-center text-sm text-dos max-w">
-          Or
+          Or{" "}
           {navigation.map((item) => (
             <Link
               key={item.name}
