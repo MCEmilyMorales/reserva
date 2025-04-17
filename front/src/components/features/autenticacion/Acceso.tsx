@@ -1,7 +1,10 @@
-import { Link } from "react-router-dom";
-import Input from "../ui/input";
-import Button from "../ui/button";
-import Checkbox from "../ui/checkbox";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "../../../components/ui/input";
+import Button from "../../../components/ui/button";
+import Checkbox from "../../../components/ui/checkbox";
+import { useState } from "react";
+import useSignIn from "../../../hooks/useSignIn";
+import { SigIn } from "../../../schemas/signIn.schema";
 
 const navigation = [
   {
@@ -12,6 +15,50 @@ const navigation = [
 ];
 
 export default function Acceso() {
+  const autenticacion = {
+    email: "",
+    password: "",
+  };
+  const navigate = useNavigate();
+  const { postData } = useSignIn();
+  const [tocado, setTocado] = useState(false);
+  const [formData, setFormData] = useState(autenticacion);
+  const [err, setErr] = useState<{ [key: string]: string[] }>({});
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setTocado(true);
+    const inputValido = SigIn.safeParse({ ...formData, [name]: value });
+
+    if (!inputValido.success) {
+      const nameInvalido = inputValido.error?.formErrors.fieldErrors;
+      setErr((prev) => ({ ...prev, [name]: nameInvalido[name] || [] }));
+    } else {
+      setErr((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      await postData(formData);
+      navigate("/formularios/reserva");
+    } catch (error) {
+      if (error instanceof Error) {
+        //! Si hay un error relacionado con el usuario o la contraseña, debera enviar un mensaje que me indique los datos ingresados fueron incorrectos, y que los debera enviar nuevamente
+        alert(error.message);
+        navigate("/formularios/acceso");
+      }
+      throw new Error();
+    }
+  };
   return (
     <div className="min-h-screen bg-cinco flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -34,15 +81,23 @@ export default function Acceso() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-cinco py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
+          <form
+            className="space-y-6"
+            onSubmit={handleSubmit}
+            action="#"
+            method="POST"
+          >
             <Input
               label="Email"
               name="email"
               type="email"
               placeholder="Ingrese su dirección de email"
-              autocomplete="email"
+              autoComplete="email"
               required
-              //value
+              value={formData.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={err.email}
             />
             <Input
               label="Password"
@@ -51,6 +106,10 @@ export default function Acceso() {
               placeholder="Ingrese su contraseña"
               autoComplete="current-password"
               required
+              value={formData.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={err.password}
             />
 
             <div className="flex items-center justify-between">

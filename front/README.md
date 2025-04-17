@@ -66,7 +66,7 @@ export default tseslint.config({
         Home.tsx
       /dashboard
         Dashboard.tsx
-    /hooks        -> Hooks personalizados (useAuth, useFetch, etc.)
+    /hooks        -> Hooks personalizados (useSignIn, useFetch, etc.)
     /utils        -> Funciones auxiliares (formatDate, parseData, etc.)
     /services     -> Llamadas a la API (getUser, postLogin, etc.)
     /routes       -> Configuración de rutas de React Router

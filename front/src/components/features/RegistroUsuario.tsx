@@ -14,9 +14,7 @@ const navigation = {
 };
 
 export const RegistroUsuario = () => {
-  const { postData } = useFetch();
-
-  const [formData, setFormData] = useState({
+  const datos = {
     name: "",
     email: "",
     birthdate: "",
@@ -24,8 +22,12 @@ export const RegistroUsuario = () => {
     username: "",
     password: "",
     confirmo: "",
-  });
-  const [setTocado] = useState(false);
+  };
+
+  const { postData } = useFetch();
+
+  const [formData, setFormData] = useState(datos);
+  const [tocado, setTocado] = useState(false);
   const [err, setErr] = useState<{ [key: string]: string[] }>({});
 
   //bindear el value de la etiqueta input con un estado
@@ -62,7 +64,7 @@ export const RegistroUsuario = () => {
 
   //agregar el evento al boton del formulario y almacenarla en una base de datos, osea enviarlo al backend
   const handleSubmit = async (event: React.FormEvent) => {
-    //se dejara de recargar la pagina cada vez que ase hace un submit
+    //se dejara de recargar la pagina cada vez que se hace un submit
     event.preventDefault();
     try {
       await postData(formData);

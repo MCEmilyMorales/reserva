@@ -3,8 +3,8 @@ const Input = ({
   name = "",
   type = "",
   placeholder = "",
-  //value,
-  // onChange,
+  value,
+  onChange,
   error,
   ...rest
 }) => {
@@ -20,8 +20,8 @@ const Input = ({
           id={name}
           type={type}
           name={name}
-          //value={value}
-          //onChange={onChange}
+          value={value}
+          onChange={onChange}
           placeholder={placeholder}
           className="appearance-none rounded-md relative block w-full px-3 py-2 border border-tres placeholder-tres text-uno focus:outline-none focus:ring-indigo-500 focus:z-10 sm:text-sm"
           {...rest}

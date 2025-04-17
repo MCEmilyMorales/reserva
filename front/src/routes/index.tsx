@@ -1,7 +1,7 @@
 import { Route, Routes } from "react-router-dom";
 import Question from "../components/question/Question";
 import LandingPage from "../components/landing/LandingPage";
-import Acceso from "../components/formularios/Acceso";
+import Acceso from "../components/features/autenticacion/Acceso";
 import { RegistroUsuario } from "../components/features/RegistroUsuario";
 import Reserva from "../components/formularios/Reserva";
 
