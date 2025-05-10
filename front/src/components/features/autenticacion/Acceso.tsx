@@ -1,4 +1,10 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import Input from "../../../components/ui/input";
+import Button from "../../../components/ui/button";
+import Checkbox from "../../../components/ui/checkbox";
+import { useState } from "react";
+import useSignIn from "../../../hooks/useSignIn";
+import { SigIn } from "../../../schemas/signIn.schema";
 
 const navigation = [
   {
@@ -9,6 +15,50 @@ const navigation = [
 ];
 
 export default function Acceso() {
+  const autenticacion = {
+    email: "",
+    password: "",
+  };
+  const navigate = useNavigate();
+  const { postData } = useSignIn();
+  const [tocado, setTocado] = useState(false);
+  const [formData, setFormData] = useState(autenticacion);
+  const [err, setErr] = useState<{ [key: string]: string[] }>({});
+  const handleChange = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setFormData({ ...formData, [name]: value });
+  };
+
+  const handleBlur = (event: React.FocusEvent<HTMLInputElement>) => {
+    const { name, value } = event.target;
+    setTocado(true);
+    const inputValido = SigIn.safeParse({ ...formData, [name]: value });
+
+    if (!inputValido.success) {
+      const nameInvalido = inputValido.error?.formErrors.fieldErrors;
+      setErr((prev) => ({ ...prev, [name]: nameInvalido[name] || [] }));
+    } else {
+      setErr((prev) => {
+        const newErrors = { ...prev };
+        delete newErrors[name];
+        return newErrors;
+      });
+    }
+  };
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault();
+    try {
+      await postData(formData);
+      navigate("/formularios/reserva");
+    } catch (error) {
+      if (error instanceof Error) {
+        //! Si hay un error relacionado con el usuario o la contraseña, debera enviar un mensaje que me indique los datos ingresados fueron incorrectos, y que los debera enviar nuevamente
+        alert(error.message);
+        navigate("/formularios/acceso");
+      }
+      throw new Error();
+    }
+  };
   return (
     <div className="min-h-screen bg-cinco flex flex-col justify-center py-12 sm:px-6 lg:px-8">
       <div className="sm:mx-auto sm:w-full sm:max-w-md">
@@ -16,7 +66,7 @@ export default function Acceso() {
           Sign in to your account
         </h2>
         <p className="mt-2 text-center text-sm text-dos max-w">
-          Or
+          Or{" "}
           {navigation.map((item) => (
             <Link
               key={item.name}
@@ -31,63 +81,43 @@ export default function Acceso() {
 
       <div className="mt-8 sm:mx-auto sm:w-full sm:max-w-md">
         <div className="bg-cinco py-8 px-4 shadow sm:rounded-lg sm:px-10">
-          <form className="space-y-6" action="#" method="POST">
-            <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-medium text-dos"
-              >
-                Email address
-              </label>
-              <div className="mt-1">
-                <input
-                  id="email"
-                  name="email"
-                  type="email"
-                  autoComplete="email"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-dos placeholder-tres text-uno focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Enter your email address"
-                />
-              </div>
-            </div>
-
-            <div>
-              <label
-                htmlFor="password"
-                className="block text-sm font-medium text-dos"
-              >
-                Password
-              </label>
-              <div className="mt-1">
-                <input
-                  id="password"
-                  name="password"
-                  type="password"
-                  autoComplete="current-password"
-                  required
-                  className="appearance-none rounded-md relative block w-full px-3 py-2 border border-cinco placeholder-cuatro text-uno focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 sm:text-sm"
-                  placeholder="Enter your password"
-                />
-              </div>
-            </div>
+          <form
+            className="space-y-6"
+            onSubmit={handleSubmit}
+            action="#"
+            method="POST"
+          >
+            <Input
+              label="Email"
+              name="email"
+              type="email"
+              placeholder="Ingrese su dirección de email"
+              autoComplete="email"
+              required
+              value={formData.email}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={err.email}
+            />
+            <Input
+              label="Password"
+              name="password"
+              type="password"
+              placeholder="Ingrese su contraseña"
+              autoComplete="current-password"
+              required
+              value={formData.password}
+              onChange={handleChange}
+              onBlur={handleBlur}
+              error={err.password}
+            />
 
             <div className="flex items-center justify-between">
-              <div className="flex items-center">
-                <input
-                  id="remember_me"
-                  name="remember_me"
-                  type="checkbox"
-                  className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-cinco rounded"
-                />
-                <label
-                  htmlFor="remember_me"
-                  className="ml-2 block text-sm text-uno"
-                >
-                  Remember me
-                </label>
-              </div>
-
+              <Checkbox
+                label="Remember me"
+                name="remember_me"
+                type="checkbox"
+              />
               <div className="text-sm">
                 <a
                   href="#"
@@ -99,12 +129,7 @@ export default function Acceso() {
             </div>
 
             <div>
-              <button
-                type="submit"
-                className="group relative w-full flex justify-center py-2 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-              >
-                Sign in
-              </button>
+              <Button type="submit" textoDelBoton="Sign in" />
             </div>
           </form>
           <div className="mt-6">
